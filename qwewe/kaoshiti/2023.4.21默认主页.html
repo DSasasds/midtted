@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="layui.css" />
+    <!-- 引入 layui.js -->
+    <script src="layui.js"></script>
+    <script src="jquery.min.js"></script>
+    <style>
+        td {
+            height: 50px;
+            padding: 1px 70px 1px 10px;
+        }
+
+        table,
+        #box {
+            width: 100%;
+            color: azure;
+            background-color: rgb(62, 72, 84);
+            border-color: rgb(62, 72, 84);
+        }
+
+        #box {
+            width: 100%;
+            height: 720px;
+        }
+
+        thead tr {
+            color: rgb(206, 206, 207);
+        }
+
+        tbody tr {
+            color: white;
+        }
+
+        #add {
+            width: 400px;
+            height: 500px;
+            background-color: rgb(97, 144, 128);
+            position: absolute;
+            left: 50%;
+            line-height: 60px;
+            top: 50%;
+            text-align: center;
+            border-radius: 25px;
+            margin-top: -25%;
+            margin-left: -25%;
+            display: none;
+        }
+
+        button {
+            border: none;
+            padding: 5px 10px;
+            background-color: rgb(56, 100, 100);
+            color: white;
+            margin-left: 5px;
+            border-radius: 5px;
+        }
+
+        #son {
+            width: 100%;
+            text-align: center;
+        }
+
+        input {
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 20px;
+        }
+
+        tr:hover {
+            background-color: gray;
+            border-color: gray;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="box">
+        <div id="son">
+            <button id="qingK" style="width: 80px; height: 30px; background-color: aqua">
+                清空
+            </button>
+            <button id="shuaX" style="width: 80px; height: 30px; background-color: aqua">
+                刷新
+            </button>
+            <input type="search" id="wd" placeholder="请输入id" />搜索
+            <button onclick="tianjiaanfun()">添加</button>
+        </div>
+        <form id="add" name="carform">
+            <h2>添加歌曲</h2>
+            <div>
+                歌曲名称：<input type="text" class="add-name" name="gequ">
+            </div>
+            <div>
+                艺术家：<input type="text" class="add-nick" name="ming">
+            </div>
+            <div>
+                专辑名称：<input type="text" class="add-birthdata" name="zhuanji">
+            </div>
+            <div>
+                年代：<input type="text" class="add-phone" name="niandai">
+            </div>
+            <div class="sex">
+                类型：<input type="text" class="add-type" name="leixing">
+            </div>
+            <button class="add-btn">添加</button>
+            <button class="add-btn-off">取消</button>
+        </form>
+        <table border="1" style="border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <td><input type="checkbox" id="select-all"></td>
+                    <td>id</td>
+                    <td>歌曲名称</td>
+                    <td>艺术家</td>
+                    <td>专辑名称</td>
+                    <td>年代</td>
+                    <td>类型</td>
+
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+            </tbody>
+        </table>
+
+    </div>
+    <script>
+        const wd = document.getElementById("wd");
+        const h2title = document.querySelector("h2")
+        const addBtn = document.querySelector(".add-btn")
+            ; (function () {
+
+                getList();
+            })();
+        //删除歌曲
+        $("table").on("click", '#shanchu', function () {
+            var id = $(this).attr("data-id");
+            if (confirm("确定删除吗?")) {
+                $.ajax({
+                    type: "delete",
+                    url: "http://81.68.107.245/api/songs/" + id,
+                    dataType: "json",
+                    success: function (res) {
+                        getList()
+                    }
+                })
+            }
+        })
+        //查看
+        $("table").on("click", '#chakan', function () {
+            event.preventDefault();
+            $("#add").css('display', 'block')
+            h2title.innerHTML = "查看歌曲属性";
+        })
+        $("tbody").on("click", chakanFun);
+        function chakanFun(data) {
+            event.preventDefault();
+            let id = event.target.dataset.id;
+            if (data.target.innerHTML == "查看") {
+
+                $.ajax({
+                    type: "get",
+                    url: "http://81.68.107.245/api/songs/" + id,
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        if (data.code == "200") {
+                            $("form input").eq(0).val(data.data.title)
+                            $("form input").eq(1).val(data.data.artist)
+                            $("form input").eq(2).val(data.data.album)
+                            $("form input").eq(3).val(data.data.year)
+                            $("form input").eq(4).val(data.data.genre)
+                        } else {
+                            console.log(data);
+                        }
+                    },
+                });
+            }
+        }
+
+        $(document).ready(function () {
+            //全选
+            $("#select-all").click(function () {
+                $('td input[type="checkbox"]').prop('checked', $('#select-all').prop('checked'))
+            });
+        });
+        //修改歌曲
+        $("table").on("click", '#xiugai', function () {
+            event.preventDefault();
+            $("#add").css('display', 'block')
+            h2title.innerHTML = "修改歌曲属性";
+            addBtn.innerHTML = "修改"
+            // var title = $('.add-name').val()//歌曲名称
+            // var artist = $('.add-nick').val()//艺术家
+            // var album = $('.add-birthdata').val()//专辑名称
+            // var year = $('.add-phone').val()//年代
+            // var genre = $('.add-type').val()//类型
+            // var id = event.target.dataset.id
+            // console.log(id);
+            // $.ajax({
+            //     type: "put",
+            //     url: "http://81.68.107.245/api/songs/" + id,
+            //     dataType: "json",
+            //     data: {
+            //         title: title,//歌曲名称
+            //         artist: artist,//艺术家
+            //         album: album,//专辑名称
+            //         year: year,//年代
+            //         genre: genre,//类型
+            //     },
+            //     success: function (res) {
+            //         xiugaifun();
+            //         $('#add').css('display', 'none')
+            //     }
+            // })
+            $("tbody").on("click", chakanFun);
+            function chakanFun(data) {
+                event.preventDefault();
+                let id = event.target.dataset.id;
+                if (data.target.innerHTML == "修改") {
+                    console.log(123);
+                    $.ajax({
+                        type: "put",
+                        url: "http://81.68.107.245/api/songs/{id}",
+                        dataType: "json",
+                        success: function (data) {
+                            console.log(data);
+                            if (data.code == "200") {
+                                $("form input").eq(0).val(data.data.title)
+                                $("form input").eq(1).val(data.data.artist)
+                                $("form input").eq(2).val(data.data.album)
+                                $("form input").eq(3).val(data.data.year)
+                                $("form input").eq(4).val(data.data.genre)
+                            } else {
+                                console.log(data);
+                            }
+                        },
+                    });
+                }
+            }
+
+        })
+        // //添加歌曲
+        $(".add-btn").click(tianjiafun)
+        function tianjiafun() {
+            event.preventDefault();
+            var title = $('.add-name').val()//歌曲名称
+            var artist = $('.add-nick').val()//艺术家
+            var album = $('.add-birthdata').val()//专辑名称
+            var year = $('.add-phone').val()//年代
+            var genre = $('.add-type').val()//类型
+            // let id=event.target.dataset.id
+            $.ajax({
+                url: "http://81.68.107.245/api/songs",
+                type: "POST",
+                dataType: "json",
+                headers: { 'Content-Type': 'application/json' },
+                data: JSON.stringify({
+                    title: title,//歌曲名称
+                    artist: artist,//艺术家
+                    album: album,//专辑名称
+                    year: year,//年代
+                    genre: genre,//类型
+                }),
+                success: function (res) {
+                    if (res.code == 0) {
+                        getList(res);
+                    } else {
+                        console.log(res);
+                    }
+                    $('#add').css('display', 'none')
+                }
+            });
+        }
+        //点击添加出现添加歌曲表单
+        function tianjiaanfun() {
+            event.preventDefault();
+            $("#add").css('display', 'block')
+        }
+        //点击取消添加歌曲隐藏表单
+        $('.add-btn-off').click(offfun)
+        function offfun() {
+            event.preventDefault();
+            $("#add").css('display', 'none')
+        }
+        //获取歌曲数据接口
+        function getList() {
+            $.ajax({
+                type: 'get',
+                url: "http://81.68.107.245/api/songs",
+                dataType: "json",
+                data: {
+                    page: 1,
+                    pageSize: 200,
+                },
+                success: function (data) {
+                    listStyle(data);
+                }
+            })
+        }
+        //清空
+        $("#qingK").click(function () {
+            $("tbody").detach();
+        });
+        //刷新
+        $("#shuaX").click(function () {
+            location.reload();
+        });
+        function listStyle(data) {
+            data = data.data.sort((a, b) => {
+                return b.id - a.id;
+            });
+            let html = ""
+            data.forEach((item, index) => {
+                html += `
+                <tr><td><input type="checkbox"  class="radio-items"></td>
+                    <td>${item.id}</td>
+                    <td>${item.title}</td>
+                    <td>${item.artist}</td>
+                    <td>${item.album}</td>
+                    <td>${item.year}</td>
+                    <td>${item.genre}</td>
+                    <td>
+                        <button id="shanchu"data-id="${item.id}");>删除</button>
+                        <button id="xiugai"data-id="${item.id}");>修改</button>
+                        <button id="chakan"data-id="${item.id}");>查看</button>
+                    </td>
+                </tr>`;
+            })
+            $("#tbody").html(html)
+        }
+    </script>
+</body>
+
+</html>
