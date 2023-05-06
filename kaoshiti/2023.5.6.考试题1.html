@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Swiper demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="swiper-bundle.min.css" />
+
+    <!-- Demo styles -->
+    <style>
+        html,
+        body {
+            position: relative;
+            height: 100%;
+        }
+
+        body {
+            background: #eee;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        .swiper {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .swiper-slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        body {
+            background: #000;
+            color: #ffffff;
+        }
+
+        .swiper {
+            width: 100%;
+            height: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .swiper-slide {
+            background-size: cover;
+            background-position: center;
+        }
+
+        .mySwiper2 {
+            position: absolute;
+            height: 65%;
+            width: 100%;
+        }
+
+        .mySwiper2 .swiper-slide img {
+            width: 40%;
+            height: 80%;
+            position: relative;
+            left: -14%;
+
+        }
+
+        .mySwiper2 .swiper-slide {
+            width: 100%;
+            height: 100%;
+            background-color: #000000;
+        }
+
+        .mySwiper3 {
+            height: 10%;
+            position: absolute;
+            top: 67%;
+        }
+
+        #ss1,
+        #ss2,
+        #ss3,
+        #ss4,
+        #ss5,
+        #ss6 {
+            position: relative;
+        }
+
+        #aa1,
+        #aa2,
+        #aa3,
+        #aa4,
+        #aa5,
+        #aa6 {
+            position: relative;
+        }
+
+        #ss2::after,
+        #ss4::after,
+        #ss6::after {
+            height: 40%;
+            width: 30%;
+            position: absolute;
+            top: 2%;
+            left: 65%;
+            opacity: 0.8;
+            font-size: 24px;
+            line-height: 50px;
+            font-weight: bold;
+            background-color: rgb(90, 90, 90);
+            content: "萨达萨达萨达！";
+        }
+
+        #ss1::after,
+        #ss3::after,
+        #ss5::after {
+            height: 40%;
+            width: 30%;
+            position: absolute;
+            top: 2%;
+            left: 65%;
+            opacity: 0.8;
+            font-size: 24px;
+            line-height: 50px;
+            font-weight: bold;
+            background-color: rgb(90, 90, 90);
+            content: "须臾登顶图！";
+        }
+
+        #aa2::after,
+        #aa4::after,
+        #aa6::after {
+            height: 14%;
+            width: 100%;
+            position: absolute;
+            top: 80%;
+            opacity: 0.8;
+            font-size: 10px;
+            padding-top: 8px;
+            font-weight: bold;
+            background-color: rgb(90, 90, 90);
+            content: "萨达萨达萨达！";
+        }
+        #aa1::after,
+        #aa3::after,
+        #aa5::after{
+            height: 14%;
+            width: 100%;
+            position: absolute;
+            top: 80%;
+            opacity: 0.8;
+            font-size: 10px;
+            padding-top: 8px;
+            font-weight: bold;
+            background-color: rgb(90, 90, 90);
+            content: "须臾登顶图！";
+        }
+        .mySwiper {
+            height: 20%;
+            position: absolute;
+            top: 78%;
+            left: -1%;
+
+            box-sizing: border-box;
+            padding: 10px 0;
+        }
+
+        .mySwiper .swiper-slide {
+            width: 25%;
+            height: 100%;
+            opacity: 0.4;
+        }
+
+        .mySwiper .swiper-slide-thumb-active {
+            opacity: 1;
+        }
+
+        .swiper-slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .tubaio {
+            width: 35%;
+            height: 60%;
+            position: absolute;
+            left: 15%;
+            line-height: 100%;
+
+        }
+
+        li {
+            list-style: none;
+        }
+
+        .qqqqqq li {
+            margin-left: 5%;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: aliceblue;
+        }
+
+        .mySwiper4 {
+            position: absolute;
+            left: 65%;
+            width: 30%;
+            height: 20%;
+            top: 35%;
+            background-color: rgb(90, 90, 90);
+        }
+        .mySwiper3 {
+            position: absolute;
+            top: 91%;
+        }
+        .swiper-button-prev{
+            position: absolute;
+            left: 10%;
+        }
+        .swiper-button-next{
+            position: absolute;
+            left: 60%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Swiper -->
+    <div id="box">
+        <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" id="ss1">
+                    <img src="https://w.wallhaven.cc/full/zy/wallhaven-zyq9rj.jpg" />
+                    <div thumbsSlider="" class="swiper mySwiper3">
+                        <div class="tubaio">
+                            <ul class="qqqqqq">
+                                <li>
+                                    <div></div><a href="#">视觉搜索</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="#" onclick="downloadImg()">保存</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="https://w.wallhaven.cc/full/zy/wallhaven-zyq9rj.jpg">查看图片</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="#">反馈</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="#">...更多</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide" id="ss2">
+                    <img src="https://w.wallhaven.cc/full/rr/wallhaven-rry9x1.jpg" />
+                    <div thumbsSlider="" class="swiper mySwiper3">
+                        <div class="tubaio">
+                            <ul class="qqqqqq">
+                                <li>
+                                    <div></div><a href="#">视觉搜索</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="#">保存</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="https://w.wallhaven.cc/full/rr/wallhaven-rry9x1.jpg">查看图片</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="#">反馈</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="#">...更多</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide" id="ss3">
+                    <img src="https://w.wallhaven.cc/full/we/wallhaven-we6qk6.jpg" />
+                    <div thumbsSlider="" class="swiper mySwiper3">
+                        <div class="tubaio">
+                            <ul class="qqqqqq">
+                                <li>
+                                    <div></div><a href="#">视觉搜索</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="#">保存</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="https://w.wallhaven.cc/full/we/wallhaven-we6qk6.jpg">查看图片</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="#">反馈</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="#">...更多</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide" id="ss4">
+                    <img src="https://w.wallhaven.cc/full/o5/wallhaven-o518ol.jpg" />
+                    <div thumbsSlider="" class="swiper mySwiper3">
+                        <div class="tubaio">
+                            <ul class="qqqqqq">
+                                <li>
+                                    <div></div><a href="#">视觉搜索</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="#">保存</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="https://w.wallhaven.cc/full/o5/wallhaven-o518ol.jpg">查看图片</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="#">反馈</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="#">...更多</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide" id="ss5">
+                    <img src="https://w.wallhaven.cc/full/zy/wallhaven-zyqv7w.jpg" />
+                    <div thumbsSlider="" class="swiper mySwiper3">
+                        <div class="tubaio">
+                            <ul class="qqqqqq">
+                                <li>
+                                    <div></div><a href="#">视觉搜索</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="#">保存</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="https://w.wallhaven.cc/full/zy/wallhaven-zyqv7w.jpg">查看图片</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="#">反馈</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="#">...更多</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide" id="ss6">
+                    <img src="https://w.wallhaven.cc/full/1p/wallhaven-1pdlxg.jpg" />
+                    <div thumbsSlider="" class="swiper mySwiper3">
+                        <div class="tubaio">
+                            <ul class="qqqqqq">
+                                <li>
+                                    <div></div><a href="#">视觉搜索</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="#">保存</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="https://w.wallhaven.cc/full/1p/wallhaven-1pdlxg.jpg">查看图片</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="#">反馈</a>
+                                </li>
+                                <li>
+                                    <div></div><a href="#">...更多</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+        <div thumbsSlider="" class="swiper mySwiper4">
+            <ul class="kaishiti">
+                <li><a href="#">第一题</a></li>
+                <li><a href="#">第二题</a></li>
+                <li><a href="#">第三题</a></li>
+            </ul>
+        </div>
+        
+        <div thumbsSlider="" class="swiper mySwiper">
+            <ul class="swiper-wrapper">
+                <li class="swiper-slide" id="aa1">
+                    <img src="https://w.wallhaven.cc/full/zy/wallhaven-zyq9rj.jpg" />
+                </li>
+                <li class="swiper-slide" id="aa2">
+                    <img src="https://w.wallhaven.cc/full/rr/wallhaven-rry9x1.jpg" />
+                </li>
+                <li class="swiper-slide" id="aa3">
+                    <img src="https://w.wallhaven.cc/full/we/wallhaven-we6qk6.jpg" />
+                </li>
+                <li class="swiper-slide" id="aa4">
+                    <img src="https://w.wallhaven.cc/full/o5/wallhaven-o518ol.jpg" />
+                </li>
+                <li class="swiper-slide" id="aa5">
+                    <img src="https://w.wallhaven.cc/full/zy/wallhaven-zyqv7w.jpg" />
+                </li>
+                <li class="swiper-slide" id="aa6">
+                    <img src="https://w.wallhaven.cc/full/1p/wallhaven-1pdlxg.jpg" />
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Swiper JS -->
+    <script src="swiper-bundle.min.js"></script>
+
+    <!-- Initialize Swiper -->
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            spaceBetween: 30,
+            slidesPerView: 4,
+            mousewheel: true,
+            freeMode: true,
+            watchSlidesProgress: true,
+            autoplay: {
+                delay: 2000,
+                disableOnInteraction: false,
+            },
+        });
+        var swiper2 = new Swiper(".mySwiper2", {
+            spaceBetween: 30,
+            slidesPerView: 1,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            autoplay: {
+                delay: 2000,
+                disableOnInteraction: false,
+            },
+            thumbs: {
+                swiper: swiper,
+            },
+        });
+    </script>
+</body>
+
+</html>

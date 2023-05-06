@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="echarts.min.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<style>
+    button {
+        padding: 10px;
+        height: 40px;
+        background-color: rgba(0, 223, 211, 0.848);
+        border-radius: 15px;
+    }
+
+    #main,
+    #main2,
+    #main3 {
+        position: absolute;
+        left: 20%;
+        top: 5%;
+    }
+
+    #shujuyi1,
+    #shujuyi2,
+    #shujuyi3 {
+        position: absolute;
+        top: 15%;
+        left: 3%;
+        width: 300px;
+        height: 150px;
+        border-radius: 20px;
+        line-height: 150px;
+        text-align: center;
+        font-size: 20px;
+        background-color: rgb(184, 181, 178);
+    }
+
+    #bbbb1,
+    #bbbb2,
+    #bbbb3 {
+        position: absolute;
+        width: 95%;
+        height: 600px;
+        top: 10%;
+    }
+
+    #bbbb2,
+    #bbbb3 {
+        display: none;
+    }
+
+    #shuxiayi1,
+    #shuxiayi2,
+    #shuxiayi3 {
+        position: absolute;
+        top: 45%;
+        left: 3%;
+        width: 300px;
+        height: 150px;
+        border-radius: 20px;
+        line-height: 150px;
+        font-size: 20px;
+        text-align: center;
+        background-color: rgb(184, 181, 178);
+    }
+</style>
+
+<body>
+    <div id="bbbb1">
+        <div id="main" style="width: 1200px;height:600px;"></div>
+        <div id="shujuyi1"></div>
+        <div id="shuxiayi1"></div>
+    </div>
+    <div id="bbbb2">
+        <div id="main2" style="width: 1200px;height:600px;"></div>
+        <div id="shujuyi2">578</div>
+        <div id="shuxiayi2">578</div>
+    </div>
+    <div id="bbbb3">
+        <div id="main3" style="width: 1200px;height:600px;"></div>
+        <div id="shujuyi3">278</div>
+        <div id="shuxiayi3">278</div>
+    </div>
+    <button id="box1" onclick="fun()">近七天访客</button>
+    <button id="box2" onclick="fun2()">近十五天访客</button>
+    <button id="box3" onclick="fun3()">近三十天访客</button>
+</body>
+<script>
+    var chartDom = document.getElementById('main');
+    var chartDom2 = document.getElementById('main2');
+    var chartDom3 = document.getElementById('main3');
+    fun();
+    function fun() {
+        $("#bbbb1").css('display', 'block')
+        $("#bbbb2").css('display', 'none')
+        $("#bbbb3").css('display', 'none')
+        var myChart = echarts.init(chartDom);
+        var option;
+        option = {
+            title: {
+                text: 'Temperature Change in the Coming Week'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            data: ["blue", "green"],
+            toolbox: {
+                show: true,
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    dataView: { readOnly: false },
+                    magicType: { type: ['blue', 'green'] },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['2023-04-30', '2023-05-02', '2023-05-03', '2023-05-04', '2023-05-05', '2023-05-06', '2023-05-07']
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value} '
+                }
+            },
+            series: [
+                {
+                    name: '访问网站',
+                    type: 'line',
+                    data: [300, 280, 260, 620, 260, 320, 200],
+                    markPoint: {
+                        data: [
+                            { type: 'max', name: 'Max' },
+                            { type: 'min', name: 'Min' }
+                        ]
+                    },
+                    markLine: {
+                        data: [{ type: 'average', name: 'Avg' }]
+                    }
+                },
+                {
+                    name: 'Lowest',
+                    type: 'line',
+                    data: [60, 50, 52, 70, 50, 50, 60],
+                    markPoint: {
+                        data: [{ name: '周最低', value: -2, xAxis: 1, yAxis: -1.5 }]
+                    },
+                    markLine: {
+                        data: [
+                            { type: 'average', name: 'Avg' },
+                            [
+                                {
+                                    symbol: 'none',
+                                    x: '90%',
+                                    yAxis: 'max'
+                                },
+                                {
+                                    symbol: 'circle',
+                                    label: {
+                                        position: 'start',
+                                        formatter: 'Max'
+                                    },
+                                    type: 'max',
+                                    name: '最高点'
+                                }
+                            ]
+                        ]
+                    }
+                }
+            ]
+
+        };
+        option && myChart.setOption(option);
+        var numbers = [300, 280, 260, 620, 260, 320, 200],
+            numbers1 = [60, 50, 52, 70, 50, 50, 60];
+        function getSum(total, num) {
+            return total + num;
+        }
+        document.getElementById("shujuyi1").innerHTML = "访问网站的人数：" + numbers.reduce(getSum);
+        document.getElementById("shuxiayi1").innerHTML = "line的人数：" + numbers1.reduce(getSum);
+    }
+    function fun2() {
+        $("#bbbb1").css('display', 'none')
+        $("#bbbb2").css('display', 'block')
+        $("#bbbb3").css('display', 'none')
+        var myChart2 = echarts.init(chartDom2);
+        var option;
+        option = {
+            title: {
+                text: 'Temperature Change in the Coming Week'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            data: ["blue", "green"],
+            toolbox: {
+                show: true,
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    dataView: { readOnly: false },
+                    magicType: { type: ['blue', 'green'] },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['2023-04-30', '2023-05-01', '2023-05-02', '2023-05-03', '2023-05-04', '2023-05-05', '2023-05-06', '2023-05-07', '2023-05-08', '2023-05-09', '2023-05-10', '2023-05-11', '2023-05-12', '2023-05-13', '2023-05-14']
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value} '
+                }
+            },
+            series: [
+                {
+                    name: '访问网站',
+                    type: 'line',
+                    data: [300, 280, 260, 620, 260, 320, 200, 250, 290, 660, 820, 630, 200, 260],
+                    markPoint: {
+                        data: [
+                            { type: 'max', name: 'Max' },
+                            { type: 'min', name: 'Min' }
+                        ]
+                    },
+                    markLine: {
+                        data: [{ type: 'average', name: 'Avg' }]
+                    }
+                },
+                {
+                    name: 'Lowest',
+                    type: 'line',
+                    data: [60, 50, 52, 70, 50, 50, 60, 250, 60, 58, 75, 80, 20, 40, 21],
+                    markPoint: {
+                        data: [{ name: '周最低', value: -2, xAxis: 1, yAxis: -1.5 }]
+                    },
+                    markLine: {
+                        data: [
+                            { type: 'average', name: 'Avg' },
+                            [
+                                {
+                                    symbol: 'none',
+                                    x: '90%',
+                                    yAxis: 'max'
+                                },
+                                {
+                                    symbol: 'circle',
+                                    label: {
+                                        position: 'start',
+                                        formatter: 'Max'
+                                    },
+                                    type: 'max',
+                                    name: '最高点'
+                                }
+                            ]
+                        ]
+                    }
+                }
+            ]
+
+        };
+        option && myChart2.setOption(option);
+        var numbers2 = [300, 280, 260, 620, 260, 320, 200, 250, 290, 660, 820, 630, 200, 260],
+            numbers21 = [60, 50, 52, 70, 50, 50, 60, 250, 60, 58, 75, 80, 20, 40, 21];
+        function getSum(total, num) {
+            return total + num;
+        }
+        document.getElementById("shujuyi2").innerHTML = "访问网站的人数：" + numbers2.reduce(getSum);
+        document.getElementById("shuxiayi2").innerHTML = "line的人数:" + numbers21.reduce(getSum);
+    };
+    function fun3() {
+        $("#bbbb1").css('display', 'none')
+        $("#bbbb2").css('display', 'none')
+        $("#bbbb3").css('display', 'block')
+        var myChart3 = echarts.init(chartDom3);
+        var option;
+        option = {
+            title: {
+                text: 'Temperature Change in the Coming Week'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            data: ["blue", "green"],
+            toolbox: {
+                show: true,
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    dataView: { readOnly: false },
+                    magicType: { type: ['blue', 'green'] },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['2023-04-30', '2023-05-01', '2023-05-02', '2023-05-03', '2023-05-04', '2023-05-05', '2023-05-06', '2023-05-07', '2023-05-08', '2023-05-09', '2023-05-10', '2023-05-11', '2023-05-12', '2023-05-13', '2023-05-14',
+                    '2023-05-15', '2023-05-16', '2023-05-17', '2023-05-18', '2023-05-19', '2023-05-20', '2023-05-21', '2023-05-22', '2023-05-23', '2023-05-24', '2023-05-25', '2023-05-26', '2023-05-27', '2023-05-28', '2023-05-29', '2023-05-30', '2023-05-31']
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value} '
+                }
+            },
+            series: [
+                {
+                    name: '访问网站',
+                    type: 'line',
+                    data: [300, 280, 260, 620, 260, 320, 200, 250, 290, 660, 820, 630, 200, 260, 300, 280, 260, 620, 260, 320, 200, 250, 290, 660, 820, 630, 200, 260, 500, 260, 290],
+                    markPoint: {
+                        data: [
+                            { type: 'max', name: 'Max' },
+                            { type: 'min', name: 'Min' }
+                        ]
+                    },
+                    markLine: {
+                        data: [{ type: 'average', name: 'Avg' }]
+                    }
+                },
+                {
+                    name: 'Lowest',
+                    type: 'line',
+                    data: [60, 50, 52, 70, 50, 50, 60, 250, 60, 58, 75, 80, 20, 40, 21, 60, 50, 52, 70, 50, 50, 60, 250, 60, 58, 75, 80, 20, 40, 21, 61],
+                    markPoint: {
+                        data: [{ name: '周最低', value: -2, xAxis: 1, yAxis: -1.5 }]
+                    },
+                    markLine: {
+                        data: [
+                            { type: 'average', name: 'Avg' },
+                            [
+                                {
+                                    symbol: 'none',
+                                    x: '90%',
+                                    yAxis: 'max'
+                                },
+                                {
+                                    symbol: 'circle',
+                                    label: {
+                                        position: 'start',
+                                        formatter: 'Max'
+                                    },
+                                    type: 'max',
+                                    name: '最高点'
+                                }
+                            ]
+                        ]
+                    }
+                }
+            ]
+
+        };
+        option && myChart3.setOption(option);
+        var numbers3 = [300, 280, 260, 620, 260, 320, 200, 250, 290, 660, 820, 630, 200, 260, 300, 280, 260, 620, 260, 320, 200, 250, 290, 660, 820, 630, 200, 260, 500, 260, 290],
+            numbers31 = [60, 50, 52, 70, 50, 50, 60, 250, 60, 58, 75, 80, 20, 40, 21, 60, 50, 52, 70, 50, 50, 60, 250, 60, 58, 75, 80, 20, 40, 21, 61];
+        function getSum(total, num) {
+            return total + num;
+        }
+        document.getElementById("shujuyi3").innerHTML = "访问网站的人数：" + numbers3.reduce(getSum);
+        document.getElementById("shuxiayi3").innerHTML = "line的人数:" + numbers31.reduce(getSum);
+    };
+</script>
+
+</html>
